@@ -23,7 +23,9 @@ function Header() {
                 {/* Logo and Hamburger for mobile */}
                 <div className='flex justify-between items-center w-full sm:w-auto mb-4 sm:mb-0'>
                     <div className='flex items-center'>
-                        <img className="w-12 h-12 object-cover rounded-full" src="https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/11/furniture-logo.jpg" alt="Logo" />
+                        <img className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                         onClick={({isActive}) => isActive? navigate('/') : navigate('/')}
+                        src="https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/11/furniture-logo.jpg" alt="Logo" />
                     </div>
                     {/* Hamburger Icon for Mobile */}
                     <button className='sm:hidden flex flex-col justify-center items-center' onClick={() => setMenu(!menu)} aria-label="Open menu">
@@ -53,7 +55,7 @@ function Header() {
                     <NavLink to="/shop">
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Shop</span>}
                     </NavLink>
-                    <NavLink to="/contact">
+                    <NavLink to="/contactus">
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Contact Us</span>}
                     </NavLink>
                     <NavLink to="/signup">

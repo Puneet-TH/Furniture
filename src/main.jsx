@@ -5,13 +5,15 @@ import App from './App.jsx'
 import { createBrowserRouter } from "react-router";
 import Home from './pages/Home'
 import Shop from './pages/Shop'
-import Contact from './pages/Contact'
+import ContactUs from './pages/ContactUs.jsx'
 import Signup from './pages/Signup'
 import Cart from './pages/Cart'
 import Login from './pages/Login'
 import AuthLayout from './components/AuthLayout'
 import Profile from './pages/Profile'
 import Orders from './pages/Orders'
+import ViewCatalog from './pages/ViewCatalog.jsx';
+import ExploreCollection from './pages/ExploreCollection.jsx';
 import { RouterProvider } from 'react-router';
 import { Provider } from 'react-redux';
 
@@ -29,8 +31,8 @@ const router = createBrowserRouter([
         element: <Shop/>
       },
       {
-        path: '/contact',
-        element: <Contact/>
+        path: '/contactus',
+        element: <ContactUs/>
       },
       {
         path: '/signup',
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login/>
+      },
+      {
+         path:'/ExploreCollection',
+         element: <ExploreCollection/>
+      },
+      {
+        path:'/ViewCatalog',
+        element: <ViewCatalog/>
       },
       // Protected routes needs authentication
       {
