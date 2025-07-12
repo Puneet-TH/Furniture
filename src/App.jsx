@@ -4,6 +4,7 @@ import Header from './components/header'
 import Footer from './components/Footer'
 import About from './components/About'
 import Hero from './components/Hero'
+import { Outlet } from 'react-router'
 
 function App() {
  
@@ -11,8 +12,7 @@ function App() {
   return (
     <>
       <Header/>
-      <Hero/>
-      <About/>
+      <Outlet/>
       <Footer/>
     </>
   )

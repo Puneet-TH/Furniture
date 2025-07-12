@@ -16,6 +16,7 @@ import ViewCatalog from './pages/ViewCatalog.jsx';
 import ExploreCollection from './pages/ExploreCollection.jsx';
 import { RouterProvider } from 'react-router';
 import { Provider } from 'react-redux';
+import Store from './components/store/store';
 
 const router = createBrowserRouter([
   {
@@ -81,8 +82,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <Provider store={store}> */}
-    <RouterProvider router = {router}/>
-  {/* </Provider> */}
+    <Provider store={Store}>
+      <RouterProvider router = {router}/>
+    </Provider>
   </StrictMode>,
 )

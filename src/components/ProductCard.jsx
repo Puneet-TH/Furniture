@@ -1,5 +1,7 @@
 import React from 'react'
-function ProductCard({ product }) {
+import { Star, Heart, Eye, ShoppingCart } from 'lucide-react'
+
+function ProductCard({ product, onEnquire }) {
     return (
             <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="relative overflow-hidden">
@@ -41,13 +43,16 @@ function ProductCard({ product }) {
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-2xl font-bold text-gray-900">${product.price}</span>
-                    <span className="text-lg text-gray-400 line-through">${product.originalPrice}</span>
+                                         <span className="text-2xl font-bold text-gray-900">₹{product.price.toLocaleString()}</span>
+                     <span className="text-lg text-gray-400 line-through">₹{product.originalPrice.toLocaleString()}</span>
                   </div>
                   
-                  <button className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-colors transform hover:scale-105">
-                    <ShoppingCart className="w-5 h-5" />
-                  </button>
+                                     <button 
+                     onClick={() => onEnquire(product)}
+                     className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-colors transform hover:scale-105"
+                   >
+                     <ShoppingCart className="w-5 h-5" />
+                   </button>
                 </div>
               </div>
             </div>
