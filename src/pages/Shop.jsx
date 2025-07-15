@@ -3,6 +3,8 @@ import { Search, Filter, Star, Heart, Eye, X, Send } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import productsData from '../data/products.json';
 import { useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addEnquiry } from '../components/store/Enquiry';
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -19,6 +21,8 @@ const Shop = () => {
     phone: '',
     message: ''
   });
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     // Load products and categories from JSON file
@@ -86,6 +90,14 @@ const Shop = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Save enquiry to Redux store
+    dispatch(addEnquiry({
+      product: selectedProduct,
+      enquiry: enquiryForm,
+      user: auth.data,
+      date: new Date().toISOString(),
+      status: 'pending',
+    }));
     alert('Thank you for your enquiry! We will contact you soon.');
     closeEnquiry();
   };
