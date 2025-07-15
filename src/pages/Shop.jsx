@@ -5,6 +5,7 @@ import productsData from '../data/products.json';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEnquiry } from '../components/store/Enquiry';
+import { ToastContainer, toast } from "react-toastify";
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -98,12 +99,13 @@ const Shop = () => {
       date: new Date().toISOString(),
       status: 'pending',
     }));
-    alert('Thank you for your enquiry! We will contact you soon.');
+    toast.success('Thank you for your enquiry! We will contact you soon.');
     closeEnquiry();
   };
 
   return (
     <div className="bg-gray-50 min-h-screen ">
+      <ToastContainer position="top-center" autoClose={4000}/>
       {/* Header Section */}
       <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -260,7 +262,7 @@ const Shop = () => {
                     value={enquiryForm.phone}
                     onChange={handleFormChange}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder="+91 9988997376"
+                    placeholder="write your phone number with country code"
                   />
                 </div>
                 
