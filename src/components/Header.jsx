@@ -66,7 +66,7 @@ function Header() {
 
     const handleSuggestionClick = (product) => {
         // Navigate to shop page with the specific product highlighted
-        navigate(`/shop?product=${product.id}`);
+        navigate(`/shop?product=${product.id}`, { viewTransition: true });
         setSearch(product.name);
         setShowSuggestions(false);
     };
@@ -134,16 +134,16 @@ function Header() {
                 {/* Desktop Nav */}
                 <div className='hidden sm:flex gap-20 justify-between items-center p-6'>
                     {/* Navigation links */}
-                    <NavLink to="/">
+                    <NavLink to="/" viewTransition>
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Home</span>}
                     </NavLink>
-                    <NavLink to="/shop">
+                    <NavLink to="/shop" viewTransition>
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Shop</span>}
                     </NavLink>
-                    <NavLink to="/contactus">
+                    <NavLink to="/contactus" viewTransition>
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Contact Us</span>}
                     </NavLink>
-                    <NavLink to="/signup">
+                    <NavLink to="/signup" viewTransition>
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Signup</span>}
                     </NavLink>
                     {isAuthenticated ? (
@@ -159,7 +159,7 @@ function Header() {
                             </div>
                         </div>
                     ) : (
-                        <NavLink to="/login">
+                        <NavLink to="/login" viewTransition>
                             <span className="cursor-pointer">Login</span>
                         </NavLink>
                     )}

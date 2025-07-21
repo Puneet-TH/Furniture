@@ -47,7 +47,7 @@ function ProductCard({ product, onEnquire }) {
                      <span className="text-lg text-gray-400 line-through">₹{product.originalPrice.toLocaleString()}</span>
                   </div>
                   
-                                     <button 
+                    <button 
                      onClick={() => onEnquire(product)}
                      className="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-full transition-colors transform hover:scale-105"
                    >

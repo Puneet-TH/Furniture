@@ -18,11 +18,11 @@ function Hero(){
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <NavLink to="/ExploreCollection" className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-all transform hover:scale-105 flex items-center justify-center group">
+              <NavLink to="/ExploreCollection" viewTransition className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-all transform hover:scale-105 flex items-center justify-center group">
                 Explore Collection
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </NavLink>
-              <NavLink to="/ViewCatalog" className="border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white px-8 py-4 rounded-lg text-lg font-medium transition-all flex items-center justify-center">
+              <NavLink to="/ViewCatalog" viewTransition className="border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white px-8 py-4 rounded-lg text-lg font-medium transition-all flex items-center justify-center">
                 View Catalog
               </NavLink>
             </div>
