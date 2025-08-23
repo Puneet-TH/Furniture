@@ -33,7 +33,7 @@ export const signup = async (req,res) => {
             userId: newUser._id,
         };
 
-        const token = await jwt.sign(tokenData, "skdskdfjgsgfss", {
+        const token = await jwt.sign(tokenData, process.env.JWT_SECRET, {
             expiresIn: "1d",
         });
 
@@ -89,7 +89,7 @@ export const login = async (req,res) => {
             userId: user._id,
         };
 
-        const token = await jwt.sign(tokenData, "skdskdfjgsgfss", {
+        const token = await jwt.sign(tokenData, process.env.JWT_SECRET, {
             expiresIn: "1d",
         });
 
