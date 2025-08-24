@@ -3,6 +3,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { login } from '../components/store/Auth';
+import { signup as signupApi } from '../api/auth';
 
 function Signup(){
   const navigate = useNavigate()
@@ -12,20 +13,26 @@ function Signup(){
   const {register, handleSubmit} = useForm()
   
   const create = async(data) => {
-      setError("")
-      setIsLoading(true)
-      try {
-        const userData = await authService.createAccount(data)
-        if(userData){
-          const userData = await authService.getCurrentUser()
-          if(userData) dispatch(login({ userData }))
-         navigate("/")
+    setError("");
+    setIsLoading(true);
+    try {
+      // Call the signup API
+      const response = await signupApi(data);
+      if (response && response.success) {
+        setError(response.message || "Account created");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1200);
+      } else if (response && response.message) {
+        setError(response.message);
+      } else {
+        setError("Signup failed. Please try again.");
       }
-      } catch (error) {
-           setError(error.message)
-      } finally {
-        setIsLoading(false)
-      }
+    } catch (error) {
+      setError(error.message || "Signup failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -73,6 +80,33 @@ function Signup(){
                 />
                 {error.fullName && (
                   <p className="mt-1 text-sm text-red-600">{error.fullName.message}</p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <div className="mt-1">
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  autoComplete="tel"
+                  required
+                  {...register("phoneNumber", { 
+                    required: "Phone number is required",
+                    pattern: {
+                      value: /^[0-9]{10,15}$/,
+                      message: "Invalid phone number"
+                    }
+                  })}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter your phone number"
+                />
+                {error.phoneNumber && (
+                  <p className="mt-1 text-sm text-red-600">{error.phoneNumber.message}</p>
                 )}
               </div>
             </div>

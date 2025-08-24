@@ -1,30 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Award, Users, Clock, Heart } from 'lucide-react';
-function About(){
+import NumberFlow from '@number-flow/react'
+
+function About() {
+  // Store animated values for each stat
+  const [animatedValues, setAnimatedValues] = useState([0, 0, 0, 0]);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const statsRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setAnimatedValues([25, 10000, 50000, 4.9]);
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+    return () => {
+      if (statsRef.current) observer.unobserve(statsRef.current);
+    };
+  }, [hasAnimated]);
   const stats = [
     {
       icon: Award,
       value: '25+',
       label: 'Years Experience',
-      color: 'text-orange-600'
+      color: 'text-orange-600',
+      suffix: '+',
+      getNumber: () => 25
     },
     {
       icon: Users,
       value: '10,000+',
       label: 'Happy Customers',
-      color: 'text-orange-600'
+      color: 'text-orange-600',
+      suffix: '+',
+      getNumber: () => 10000
     },
     {
       icon: Clock,
       value: '50,000+',
       label: 'Products Delivered',
-      color: 'text-orange-600'
+      color: 'text-orange-600',
+      suffix: '+',
+      getNumber: () => 50000
     },
     {
       icon: Heart,
       value: '4.9/5',
       label: 'Customer Rating',
-      color: 'text-orange-600'
+      color: 'text-orange-600',
+      suffix: '/5',
+      getNumber: () => 4.9
     }
   ];
 
@@ -46,14 +78,18 @@ function About(){
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-8" ref={statsRef}>
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="bg-orange-600 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <stat.icon className="w-8 h-8 text-white" />
                   </div>
                   <div className={`text-3xl font-bold ${stat.color} mb-2`}>
-                    {stat.value}
+                    <NumberFlow
+                     value={animatedValues[index]}
+                     suffix={stat.suffix}
+                     spinTiming={{ duration: 800, easing: 'linear' }}
+                     />
                   </div>
                   <div className="text-amber-200 text-sm">
                     {stat.label}
@@ -97,6 +133,6 @@ function About(){
       </div>
     </section>
   );
-};
+}
 
 export default About;

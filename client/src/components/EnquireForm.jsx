@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { X, Star, Send } from 'lucide-react';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 const EnquireForm = ({
   isOpen,
@@ -84,16 +86,13 @@ const EnquireForm = ({
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                 Phone Number *
               </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                required
-                value={enquiryForm.phone}
-                onChange={onFormChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                placeholder="write your phone number with country code"
-              />
+              <PhoneInput
+                    country={'in'}
+                    value={enquiryForm.phone}
+                    onChange={onFormChange}
+                    inputClass="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
+                    placeholder="write your contact number"
+                  />
             </div>
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">

@@ -3,6 +3,7 @@ import { useForm} from "react-hook-form"
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import {login as authLogin} from '../components/store/Auth'
+import { login as loginApi } from '../api/auth';
 
 function Login() {
     const navigate = useNavigate();
@@ -15,17 +16,17 @@ function Login() {
         setError('');
         setIsLoading(true);
         try {
-           const session = "" //backend logic for sending to backend 
-           // after getting data from backend 
-        if(session){
-            const userData = //get user data using get method from backend
-            //then dispatch the data to store for change in state
-            dispatch(authLogin(userData));
-            //navigate to root page home
-            navigate('/')
-        }
+            const response = await loginApi(data);
+            if (response && response.succes) {
+                dispatch(authLogin({ data: response.user }));
+                navigate('/');
+            } else if (response && response.message) {
+                setError(response.message);
+            } else {
+                setError('Login failed. Please try again.');
+            }
         } catch (error) {
-            setError(error.message);
+            setError(error.message || 'Login failed. Please try again.');
         } finally {
             setIsLoading(false);
         }

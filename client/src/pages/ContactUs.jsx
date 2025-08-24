@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
+import { sendEnquiryEmail } from '../api/email';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -17,9 +20,9 @@ const ContactUs = () => {
       icon: MapPin,
       title: 'Our Location',
       details: [
-        'Plot No. 367, Industrial Area',
-        'Phase 1, Panchkula',
-        'Haryana, India 134113'
+        'Plot no C-170/71',
+        'Focal point patiala',
+        'Punjab, India, 141010'
       ],
       color: 'bg-orange-100 text-orange-600'
     },
@@ -27,8 +30,8 @@ const ContactUs = () => {
       icon: Phone,
       title: 'Phone Numbers',
       details: [
-        '+91 9988997376',
-        '0172-5064376'
+        '+91 9814700930',
+        '+91 9814900930'
       ],
       color: 'bg-amber-100 text-amber-600'
     },
@@ -36,8 +39,7 @@ const ContactUs = () => {
       icon: Mail,
       title: 'Email Address',
       details: [
-        'anzerfurniture@gmail.com',
-        'info@anzerfurniture.com'
+        'Saggufurniture0930@gmail.com',
       ],
       color: 'bg-orange-100 text-orange-600'
     },
@@ -45,8 +47,7 @@ const ContactUs = () => {
       icon: Clock,
       title: 'Business Hours',
       details: [
-        'Tuesday - Sunday: 10:00 AM - 7:30 PM',
-        'Monday: Closed'
+        'Monday - Sunday: 10:00 AM - 7:30 PM',
       ],
       color: 'bg-amber-100 text-amber-600'
     }
@@ -59,12 +60,30 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // Separate handler for react-phone-input-2
+  const handlePhoneChange = (value) => {
+    setFormData({
+      ...formData,
+      phone: value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    
+    // Send email using EmailJS
+    try {
+      await sendEnquiryEmail({
+        name: formData.firstName + ' ' + formData.lastName,
+        email: formData.email,
+        message: formData.message,
+        title: formData.subject,
+        phone: formData.phone
+      });
+      setIsSubmitted(true);
+    } catch (error) {
+      alert('Failed to send message. Please try again.');
+      return;
+    }
     // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
@@ -144,7 +163,7 @@ const ContactUs = () => {
                       value={formData.firstName}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                      placeholder="John"
+                      placeholder="write your first name"
                     />
                   </div>
                   <div>
@@ -155,11 +174,12 @@ const ContactUs = () => {
                       type="text"
                       id="lastName"
                       name="lastName"
+                      
                       required
                       value={formData.lastName}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                      placeholder="Doe"
+                      placeholder="write your last name"
                     />
                   </div>
                 </div>
@@ -176,23 +196,20 @@ const ContactUs = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                    placeholder="john@example.com"
+                    placeholder="write your mail adress"
                   />
                 </div>
                 
-                <div>
+                <div className="w-full">
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
                     Phone Number *
                   </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    required
+                  <PhoneInput
+                    country={'us'}
                     value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
-                    placeholder="+91 9988997376"
+                    onChange={handlePhoneChange}
+                    inputClass="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"
+                    placeholder="write your contact number"
                   />
                 </div>
                 
@@ -244,31 +261,35 @@ const ContactUs = () => {
             {/* Map Placeholder */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Visit Our Showroom</h3>
-              <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center mb-6">
-                <div className="text-center">
-                  <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                  <p className="text-gray-600">Interactive Map</p>
-                  <p className="text-sm text-gray-500">Plot No. 367, Industrial Area, Phase 1</p>
-                  <p className="text-sm text-gray-500">Panchkula, Haryana 134113</p>
-                </div>
+              <div className="bg-gray-200 rounded-lg mb-6 overflow-hidden" style={{ position: 'relative', height: '250px' }}>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.163296768325!2d76.41798607502339!3d30.374720602847813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391027d9aaaaaaab%3A0x487e4762388b01d3!2sSaggu%20Furniture%20Patiala%20-%20Furnished%20Dealer!5e0!3m2!1sen!2sin!4v1756046965163!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, width: '100%', height: '100%', borderRadius: '12px' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Saggu Furniture Patiala Map"
+                ></iframe>
               </div>
-              <button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center">
+              <button className="cursor-pointer w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center">
                 <MapPin className="w-5 h-5 mr-2" />
-                Get Directions
+                <a href="https://maps.app.goo.gl/EHwd5Er24r5wr5Vm7" target='_blank'>Get Directions</a>
               </button>
             </div>
 
             {/* Why Choose Us */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose Anzer Furniture?</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Why Choose Saggu Furniture?</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <div className="bg-orange-100 rounded-full p-2 mt-1">
                     <CheckCircle className="w-4 h-4 text-orange-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">25+ Years Experience</h4>
-                    <p className="text-gray-600 text-sm">Trusted by thousands of customers across India</p>
+                    <h4 className="font-semibold text-gray-900">8+ Years Experience</h4>
+                    <p className="text-gray-600 text-sm">Trusted by thousands of customers across India and Globe</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -294,8 +315,8 @@ const ContactUs = () => {
                     <CheckCircle className="w-4 h-4 text-orange-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">10-Year Warranty</h4>
-                    <p className="text-gray-600 text-sm">Quality guarantee on all our products</p>
+                    <h4 className="font-semibold text-gray-900">Trust & Reliability</h4>
+                    <p className="text-gray-600 text-sm">Years of experience in the furniture industry</p>
                   </div>
                 </div>
               </div>

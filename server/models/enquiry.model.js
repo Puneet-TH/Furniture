@@ -9,7 +9,7 @@ const enquirySchema = new mongoose.Schema({
         type:String,
         required:[true,"message is required"]
     }
-})
+},{timestamps: true})
 
 const Enquiry = mongoose.model("Enquiry",enquirySchema);
 export default Enquiry;

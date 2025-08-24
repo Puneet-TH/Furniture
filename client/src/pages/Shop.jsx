@@ -5,6 +5,8 @@ import productsData from '../data/products.json';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEnquiry } from '../components/store/Enquiry';
+import { submitEnquiry } from '../api/enquiry';
+import { sendEnquiryEmail } from '../api/email';
 import { ToastContainer, toast } from "react-toastify";
 import EnquireForm from '../components/EnquireForm';
 
@@ -90,9 +92,24 @@ const Shop = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Save enquiry to Redux store
+    // 1. Save enquiry to backend
+    const saveRes = await submitEnquiry({
+      name: selectedProduct?.name,
+      user: auth.data?._id,
+    });
+    // 2. Send email to admin using EmailJS
+    try {
+      await sendEnquiryEmail({
+        ...enquiryForm,
+        product: selectedProduct
+      });
+      toast.success('Thank you for your enquiry! We will contact you soon.');
+    } catch (err) {
+      toast.error('Enquiry saved, but failed to send email.');
+    }
+    // Optionally save to Redux store
     dispatch(addEnquiry({
       product: selectedProduct,
       enquiry: enquiryForm,
@@ -100,7 +117,6 @@ const Shop = () => {
       date: new Date().toISOString(),
       status: 'pending',
     }));
-    toast.success('Thank you for your enquiry! We will contact you soon.');
     closeEnquiry();
   };
 
@@ -143,7 +159,7 @@ const Shop = () => {
                 <button 
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-medium transition-colors ${
+                className={`px-6 py-2 rounded-full font-medium transition-colors cursor-pointer ${
                     selectedCategory === category
                     ? 'bg-orange-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-orange-50 border border-gray-300'
@@ -163,7 +179,7 @@ const Shop = () => {
             <div 
               key={product.id} 
               id={`product-${product.id}`}
-              className={`transition-all duration-300 ${
+              className={`transition-all duration-300 cursor-pointer ${
                 highlightedProduct && highlightedProduct.id === product.id 
                   ? 'ring-4 ring-amber-500 ring-opacity-50' 
                   : ''

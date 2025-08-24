@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.route("/createEnquiry").post(isAuthenticated,makeEnquiry);
-router.route("/getEnquiries").get(isAuthenticated,getEnquiries);
+router.route("/getEnquiries/:userId").get(isAuthenticated,getEnquiries);
 
 
 export default router;

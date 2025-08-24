@@ -1,19 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link , NavLink, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from './store/Auth';
 import { Search } from 'lucide-react'
 import productsData from '../data/products.json'
 
 function Header() {
     const [menu, setMenu] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [search, setSearch] = useState('');
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [suggestions, setSuggestions] = useState([]);
     const searchRef = useRef(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     
-    // Placeholder for authentication status
-    const isAuthenticated = false;
-    const userName = 'John Doe';
+    // Get authentication status from Redux
+    const auth = useSelector(state => state.auth);
+    const isAuthenticated = auth.status;
+    const userName = auth.data?.fullName || 'User';
 
     // Generate search suggestions
     useEffect(() => {
@@ -69,6 +74,12 @@ function Header() {
         navigate(`/shop?product=${product.id}`, { viewTransition: true });
         setSearch(product.name);
         setShowSuggestions(false);
+    };
+
+    const handleLogout = () => {
+        dispatch(logout());
+        setDropdownOpen(false);
+        navigate('/login');
     };
 
     return (
@@ -132,7 +143,7 @@ function Header() {
                 </div>
 
                 {/* Desktop Nav */}
-                <div className='hidden sm:flex gap-20 justify-between items-center p-6'>
+                <div className='hidden sm:flex gap-20 justify-between items-center p-5'>
                     {/* Navigation links */}
                     <NavLink to="/" viewTransition>
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Home</span>}
@@ -143,20 +154,23 @@ function Header() {
                     <NavLink to="/contactus" viewTransition>
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Contact Us</span>}
                     </NavLink>
-                    <NavLink to="/signup" viewTransition>
-                        {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Signup</span>}
-                    </NavLink>
-                    {isAuthenticated ? (
-                        <div className="relative group ml-4">
-                            <button className="flex items-center gap-2 focus:outline-none">
+                    {!isAuthenticated && (
+                        <NavLink to="/signup" viewTransition>
+                            {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Signup</span>}
+                        </NavLink>
+                                        )}
+                                        {isAuthenticated ? (
+                        <div className="relative ml-4">
+                            <button className="flex items-center gap-2 focus:outline-none" onClick={() => setDropdownOpen((prev) => !prev)}>
                                 <span className="font-semibold">{userName}</span>
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                             </button>
-                            <div className="absolute hidden group-hover:block bg-amber-900 text-white right-0 mt-2 py-2 w-40 rounded shadow-lg z-10">
-                                <NavLink to="/profile" className="block px-4 py-2 hover:bg-amber-800">Profile</NavLink>
-                                <NavLink to="/orders" className="block px-4 py-2 hover:bg-amber-800">Order History</NavLink>
-                                <NavLink to="/cart" className="block px-4 py-2 hover:bg-amber-800">Cart</NavLink>
-                            </div>
+                            {dropdownOpen && (
+                                <div className="absolute bg-amber-900 text-white right-0 mt-2 py-2 w-40 rounded shadow-lg z-10">
+                                    <NavLink to="/orders" className="block px-4 py-2 hover:bg-amber-800" onClick={() => setDropdownOpen(false)}>Order History</NavLink>
+                                    <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-amber-800">Logout</button>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <NavLink to="/login" viewTransition>
@@ -185,11 +199,13 @@ function Header() {
                                 {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Contact Us</span>}
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink to="/signup">
-                                {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Signup</span>}
-                            </NavLink>
-                        </li>
+                                                {!isAuthenticated && (
+                                                    <li>
+                                                            <NavLink to="/signup">
+                                                                    {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Signup</span>}
+                                                            </NavLink>
+                                                    </li>
+                                                )}
                         {isAuthenticated ? (
                           <>
                             <li>

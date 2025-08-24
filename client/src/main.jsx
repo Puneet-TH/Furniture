@@ -7,10 +7,8 @@ import Home from './pages/Home'
 import Shop from './pages/Shop'
 import ContactUs from './pages/ContactUs.jsx'
 import Signup from './pages/Signup'
-import Cart from './pages/Cart'
 import Login from './pages/Login'
 import AuthLayout from './components/AuthLayout'
-import Profile from './pages/Profile'
 import Orders from './pages/Orders'
 import ViewCatalog from './pages/ViewCatalog.jsx';
 import ExploreCollection from './pages/ExploreCollection.jsx';
@@ -52,22 +50,6 @@ const router = createBrowserRouter([
         element: <ViewCatalog/>
       },
       // Protected routes needs authentication
-      {
-        path: '/cart',
-        element: (
-          <AuthLayout authentication={true}>
-            <Cart />
-          </AuthLayout>
-        )
-      },
-      {
-        path: '/profile',
-        element: (
-          <AuthLayout authentication={true}>
-            <Profile />
-          </AuthLayout>
-        )
-      },
       {
         path: '/orders',
         element: (
