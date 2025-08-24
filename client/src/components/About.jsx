@@ -71,10 +71,10 @@ function About() {
                 <span className="text-orange-400 block">Reality</span>
               </h2>
               <p className="text-xl text-amber-100 leading-relaxed mb-6">
-                For over 25 years, Anzer Furniture has been creating exceptional pieces that transform houses into homes. Our passion for quality craftsmanship and timeless design drives every piece we create.
+                For over 8 years, Saggu Furniture has been creating exceptional pieces that transform houses into homes. Our passion for quality craftsmanship and timeless design drives every piece we create.
               </p>
               <p className="text-amber-200 leading-relaxed">
-                From our workshop in Panchkula, Haryana, we've built a reputation for excellence, serving customers across India with furniture that combines traditional craftsmanship with modern aesthetics.
+                From our workshop in Patiala, Punjab, we've built a reputation for excellence, serving customers across India and Globe with furniture that combines traditional craftsmanship with modern aesthetics.
               </p>
             </div>
 

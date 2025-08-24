@@ -18,6 +18,17 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [highlightedProduct, setHighlightedProduct] = useState(null);
+  // State for product close-up modal
+  const [viewProduct, setViewProduct] = useState(null);
+  // Open product close-up modal
+  const openView = (product) => {
+    setViewProduct(product);
+  };
+
+  // Close product close-up modal
+  const closeView = () => {
+    setViewProduct(null);
+  };
   const [searchParams] = useSearchParams();
   const [enquiryForm, setEnquiryForm] = useState({
     name: '',
@@ -121,16 +132,16 @@ const Shop = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen ">
+  <div className="bg-gray-50 min-h-screen w-full overflow-x-hidden">
       <ToastContainer position="top-center" autoClose={4000}/>
       {/* Header Section */}
-      <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-900 text-white py-16">
+      <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-amber-900 text-white py-10 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-2 md:mb-4">
               Our Furniture Collection
             </h1>
-            <p className="text-xl text-amber-100 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-amber-100 max-w-2xl mx-auto">
               Discover premium furniture pieces crafted with passion and precision
             </p>
           </div>
@@ -138,10 +149,10 @@ const Shop = () => {
       </div>
 
       {/* Filters and Search */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row gap-6 items-center justify-between mb-8">
+  <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 md:py-8">
+  <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center justify-between mb-6 md:mb-8">
           {/* Search */}
-          <div className="relative flex-1 max-w-md">
+          <div className="relative w-full max-w-md mb-4 md:mb-0">
             <input
               type="text"
               placeholder="Search furniture"
@@ -153,7 +164,7 @@ const Shop = () => {
           </div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 w-full justify-center md:justify-start">
            {categories.map((category) => {
             return(
                 <button 
@@ -174,7 +185,7 @@ const Shop = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
           {filteredProducts.map((product) => (
             <div 
               key={product.id} 
@@ -185,7 +196,30 @@ const Shop = () => {
                   : ''
               }`}
             >
-              <ProductCard product={product} onEnquire={openEnquiry} />
+              <ProductCard product={product} onEnquire={openEnquiry} onView={openView} />
+      {/* Product Close-up Modal */}
+      {viewProduct && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 transition-all">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative animate-fadeIn">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 cursor-pointer"
+              onClick={closeView}
+              aria-label="Close"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={viewProduct.image}
+              alt={viewProduct.name}
+              className="w-full h-80 object-contain mb-4 rounded"
+              style={{ maxHeight: '20rem' }}
+            />
+            <h2 className="text-2xl font-semibold mb-2">{viewProduct.name}</h2>
+            <p className="text-gray-700 mb-2">{viewProduct.description}</p>
+            <p className="text-gray-500 text-sm">Category: {viewProduct.category}</p>
+          </div>
+        </div>
+      )}
             </div>
           ))}
         </div>

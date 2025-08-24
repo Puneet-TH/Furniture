@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link , NavLink, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from './store/Auth';
-import { Search } from 'lucide-react'
+import { Search, User } from 'lucide-react'
 import productsData from '../data/products.json'
+
 
 function Header() {
     const [menu, setMenu] = useState(false);
@@ -83,18 +84,18 @@ function Header() {
     };
 
     return (
-        <div className='position-sticky top-0 bg-amber-950 text-white p-6 font-bold z-50'>
+        <div className='position-sticky top-0 bg-amber-950 text-white p-1 font-bold z-30'>
             {/* Responsive Header Layout */}
             <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 w-full'>
                 {/* Logo and Hamburger for mobile */}
                 <div className='flex justify-between items-center w-full sm:w-auto mb-4 sm:mb-0'>
                     <div className='flex items-center'>
-                        <img className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                        <img className="w-15 h-15 object-cover rounded-full cursor-pointer"
                          onClick={() => navigate('/')}
-                        src="https://www.onlinelogomaker.com/blog/wp-content/uploads/2017/11/furniture-logo.jpg" alt="Logo" />
+                        src="/assets/image.png" alt="Logo" />
                     </div>
                     {/* Hamburger Icon for Mobile */}
-                    <button className='sm:hidden flex flex-col justify-center items-center' onClick={() => setMenu(!menu)} aria-label="Open menu">
+                    <button className='sm:hidden flex flex-col justify-center items-center cursor-pointer' onClick={() => setMenu(!menu)} aria-label="Open menu">
                         <span className='block w-6 h-0.5 bg-white mb-1'></span>
                         <span className='block w-6 h-0.5 bg-white mb-1'></span>
                         <span className='block w-6 h-0.5 bg-white'></span>
@@ -143,7 +144,7 @@ function Header() {
                 </div>
 
                 {/* Desktop Nav */}
-                <div className='hidden sm:flex gap-20 justify-between items-center p-5'>
+                <div className='hidden sm:flex gap-20 justify-between items-center p-1'>
                     {/* Navigation links */}
                     <NavLink to="/" viewTransition>
                         {({ isActive }) => <span className={isActive ? 'cursor-pointer text-amber-700' : 'cursor-pointer'}>Home</span>}
@@ -160,11 +161,14 @@ function Header() {
                         </NavLink>
                                         )}
                                         {isAuthenticated ? (
-                        <div className="relative ml-4">
-                            <button className="flex items-center gap-2 focus:outline-none" onClick={() => setDropdownOpen((prev) => !prev)}>
-                                <span className="font-semibold">{userName}</span>
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                            </button>
+                                                <div className="relative ml-4">
+                                                        <button
+                                                            className="w-15 h-15 rounded-full bg-amber-700 flex items-center justify-center shadow-lg transition hover:bg-amber-800 focus:outline-none cursor-pointer"
+                                                            onClick={() => setDropdownOpen((prev) => !prev)}
+                                                            aria-label="Profile menu"
+                                                        >
+                                                            <User className="w-6 h-6 text-white" />
+                                                        </button>
                             {dropdownOpen && (
                                 <div className="absolute bg-amber-900 text-white right-0 mt-2 py-2 w-40 rounded shadow-lg z-10">
                                     <NavLink to="/orders" className="block px-4 py-2 hover:bg-amber-800" onClick={() => setDropdownOpen(false)}>Order History</NavLink>
@@ -209,18 +213,8 @@ function Header() {
                         {isAuthenticated ? (
                           <>
                             <li>
-                              <NavLink to="/profile">
-                                <span className="cursor-pointer">Profile</span>
-                              </NavLink>
-                            </li>
-                            <li>
                               <NavLink to="/orders">
                                 <span className="cursor-pointer">Order History</span>
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink to="/cart">
-                                <span className="cursor-pointer">Cart</span>
                               </NavLink>
                             </li>
                           </>

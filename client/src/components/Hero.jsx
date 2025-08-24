@@ -52,7 +52,6 @@ function Hero(){
                 />
                 <div className="mt-4">
                   <h3 className="text-xl font-bold text-gray-900">Modern Living Set</h3>
-                  <p className="text-gray-600">Starting from $2,499</p>
                 </div>
               </div>
             </div>
@@ -77,8 +76,8 @@ function Hero(){
               <Truck className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-white">Free Delivery</h3>
-              <p className="text-amber-200">On orders over $1,000</p>
+              <h3 className="font-semibold text-white">Fast Delivery</h3>
+              <p className="text-amber-200">Shipping pan india and across the globe</p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -86,7 +85,7 @@ function Hero(){
               <Shield className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-white">10-Year Warranty</h3>
+              <h3 className="font-semibold text-white">8+ Year Trust</h3>
               <p className="text-amber-200">Quality guaranteed</p>
             </div>
           </div>
@@ -96,7 +95,7 @@ function Hero(){
             </div>
             <div>
               <h3 className="font-semibold text-white">Expert Craftsmanship</h3>
-              <p className="text-amber-200">Handmade with love</p>
+              <p className="text-amber-200">Handmade with perfection</p>
             </div>
           </div>
         </div>
