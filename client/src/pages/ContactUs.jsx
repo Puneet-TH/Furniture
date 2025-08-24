@@ -205,7 +205,7 @@ const ContactUs = () => {
                     Phone Number *
                   </label>
                   <PhoneInput
-                    country={'us'}
+                    country={'in'}
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     inputClass="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors"

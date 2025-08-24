@@ -28,11 +28,11 @@ function About() {
   const stats = [
     {
       icon: Award,
-      value: '25+',
+      value: '8+',
       label: 'Years Experience',
       color: 'text-orange-600',
       suffix: '+',
-      getNumber: () => 25
+      getNumber: () => 8
     },
     {
       icon: Users,
