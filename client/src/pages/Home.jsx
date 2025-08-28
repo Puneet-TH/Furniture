@@ -7,7 +7,6 @@ function Home() {
         <div>
             <Hero/>
             <About/>
-            <Testimonials/>
         </div>
     )
 }
