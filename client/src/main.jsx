@@ -14,7 +14,7 @@ import ViewCatalog from './pages/ViewCatalog.jsx';
 import ExploreCollection from './pages/ExploreCollection.jsx';
 import { RouterProvider } from 'react-router';
 import { Provider } from 'react-redux';
-import Store from './components/store/store';
+import Store from './components/store/Store.js'
 
 const router = createBrowserRouter([
   {
