@@ -17,8 +17,9 @@ function Login() {
         setIsLoading(true);
         try {
             const response = await loginApi(data);
-            if (response && response.succes) {
-                dispatch(authLogin({ data: response.user }));
+            // response: { status: true/false, data: {...}, message? }
+            if (response && response.status) {
+                dispatch(authLogin({ data: response.data }));
                 navigate('/');
             } else if (response && response.message) {
                 setError(response.message);

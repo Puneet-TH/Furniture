@@ -3,8 +3,8 @@ export async function signup(userData) {
   const res = await fetch(`${import.meta.env.VITE_API_BASE}/Register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userData),
-    credentials: "include"
+    body: JSON.stringify(userData)
+    // No credentials, as cookies are not used
   });
   return res.json();
 }
@@ -14,17 +14,16 @@ export async function login(userData) {
     const res = await fetch(`${import.meta.env.VITE_API_BASE}/Login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
-      credentials: "include"
+      body: JSON.stringify(userData)
+      // No credentials, as cookies are not used
     });
     const data = await res.json();
-    if (!res.ok) {
-      // Attach status and message for better error handling
+    // Expecting { status: true/false, data: {...} } from backend
+    if (!res.ok || !data.status) {
       throw new Error(data.message || 'Login failed.');
     }
     return data;
   } catch (err) {
-    // Return a consistent error object
-    return { success: false, message: err.message };
+    return { status: false, message: err.message };
   }
 }
