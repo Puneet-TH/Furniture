@@ -18,7 +18,6 @@ const Orders = () => {
       setError(null);
       try {
         const res = await getUserEnquiries(auth.data._id);
-        console.log(res)
         if (res && res.success && Array.isArray(res.enquiries)) {
           // Sort by createdAt descending, fallback to _id if missing
           const sorted = [...res.enquiries].sort((a, b) => {
