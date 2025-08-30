@@ -10,7 +10,8 @@ const EnquireForm = ({
   selectedProduct,
   enquiryForm,
   onFormChange,
-  onSubmit
+  onSubmit,
+  auth
 }) => {
   // Custom handler for phone input
   const handlePhoneChange = (value) => {
@@ -22,6 +23,12 @@ const EnquireForm = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
+          {/* Warning if not authenticated */}
+          {(!auth || !auth.status) && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded text-center font-semibold">
+              Please sign up or log in to send an enquiry.
+            </div>
+          )}
           {/* Modal Header */}
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">Product Enquiry</h2>

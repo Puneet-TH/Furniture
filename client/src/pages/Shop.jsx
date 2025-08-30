@@ -239,6 +239,7 @@ const Shop = () => {
         enquiryForm={enquiryForm}
         onFormChange={handleFormChange}
         onSubmit={handleSubmit}
+        auth={auth}
       />
     </div>
   );
