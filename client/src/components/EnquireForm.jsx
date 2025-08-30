@@ -19,17 +19,14 @@ const EnquireForm = ({
   };
   if (!isOpen) return null;
 
-  // Show error for not logged in users only
-  const notLoggedIn = !auth || !auth.status;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
-          {/* Error warning for not logged in users only */}
-          {notLoggedIn && (
+          {/* Warning if not authenticated */}
+          {(!auth || !auth.status) && (
             <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded text-center font-semibold">
-              Only registered and logged in users can make an enquiry. Please <span className="text-orange-700 font-bold">register</span> or <span className="text-orange-700 font-bold">log in</span> to continue.
+              Please sign up or log in to send an enquiry.
             </div>
           )}
           {/* Modal Header */}
@@ -132,8 +129,7 @@ const EnquireForm = ({
               </button>
               <button
                 type="submit"
-                disabled={notLoggedIn}
-                className={`flex-1 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg transition-colors flex items-center justify-center ${notLoggedIn ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className="flex-1 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg transition-colors flex items-center justify-center"
               >
                 <Send className="w-5 h-5 mr-2" />
                 Send Enquiry
